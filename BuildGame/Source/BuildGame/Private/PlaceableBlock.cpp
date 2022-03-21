@@ -3,6 +3,8 @@
 
 #include "PlaceableBlock.h"
 
+#include "UObject/ConstructorHelpers.h"
+
 
 APlaceableBlock::APlaceableBlock()
 {
@@ -10,9 +12,10 @@ APlaceableBlock::APlaceableBlock()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	m_mesh_component = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Root"));
-	m_mesh->SetMaterial(0, m_material);
-	m_mesh_component->SetStaticMesh(m_mesh);
-	m_mesh_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	// static ConstructorHelpers::FObjectFinder<UStaticMesh> m_mesh(TEXT("StaticMesh'/BuildGame/Content/Geometry/Meshes/foundation.uasset'"));
+// 	m_mesh->SetMaterial(0, m_material);
+// 	m_mesh_component->SetStaticMesh(m_mesh);
+// 	m_mesh_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
 	FString StringExample = TEXT("Empty constructor");
 	UE_LOG(LogTemp, Warning, TEXT("Output: %s"), *StringExample);
