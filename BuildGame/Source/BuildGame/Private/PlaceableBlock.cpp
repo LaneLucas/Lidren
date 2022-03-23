@@ -10,12 +10,18 @@ APlaceableBlock::APlaceableBlock()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
+
 	m_mesh_component = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Root"));
-	// static ConstructorHelpers::FObjectFinder<UStaticMesh> m_mesh(TEXT("StaticMesh'/BuildGame/Content/Geometry/Meshes/foundation.uasset'"));
-// 	m_mesh->SetMaterial(0, m_material);
-// 	m_mesh_component->SetStaticMesh(m_mesh);
-// 	m_mesh_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	m_mesh_component->SetupAttachment(GetRootComponent());
+
+	m_mesh = CreateDefaultSubobject<UStaticMesh>(TEXT("mesh"));
+	m_material = CreateDefaultSubobject<UMaterial>(TEXT("material"));
+
+	m_mesh->SetMaterial(0, m_material);
+	// m_mesh->SetupAttachment(m_mesh_component);
+	m_mesh_component->SetStaticMesh(m_mesh);
+
+	m_mesh_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	FString StringExample = TEXT("Empty constructor");
 	UE_LOG(LogTemp, Warning, TEXT("Output: %s"), *StringExample);
@@ -28,9 +34,10 @@ APlaceableBlock::APlaceableBlock(UStaticMesh* mesh, UMaterial* material): m_mesh
 	PrimaryActorTick.bCanEverTick = true;
 
 	m_mesh_component = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Root"));
+
 	m_mesh->SetMaterial(0, m_material);
 	m_mesh_component->SetStaticMesh(m_mesh);
-	m_mesh_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	m_mesh_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	FString StringExample = TEXT("modded constructor");
 	UE_LOG(LogTemp, Warning, TEXT("Output: %s"), *StringExample);
@@ -52,6 +59,6 @@ void APlaceableBlock::Tick(float DeltaTime)
 
 void APlaceableBlock::Placed()
 {
-
+	m_mesh_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 }
 

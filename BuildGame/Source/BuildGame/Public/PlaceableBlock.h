@@ -12,7 +12,7 @@
 
 #include "PlaceableBlock.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable)
 class BUILDGAME_API APlaceableBlock : public AActor, public IPlaceableBlockInterface
 {
 	GENERATED_BODY()
@@ -27,6 +27,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable)
 	void Placed() override;
 
 protected:
@@ -38,6 +39,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	UMaterial* m_material;
+
+	
+	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* m_mesh_component;
 
 };
